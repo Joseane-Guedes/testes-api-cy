@@ -21,13 +21,15 @@ describe('Testes da Funcionalidade - API de Usuários', () => {
      });
 
      it.only('Deve cadastrar um usuário com sucesso', () => {
+          const nome = faker.internet.userName()
           const email = faker.internet.email();
-          cy.NovoUsuario('TesteAPI', 'email', 'senha', true).then(response => {
+          const senha = faker.internet.password();
+
+          cy.NovoUsuario(nome, email, senha, 'true').then(response => {
                expect(response.status).to.equal(201);
                expect(response.body.message).to.equal('Cadastro realizado com sucesso');
           });
      });
-
 
      it('Deve validar um usuário com email inválido', () => {
           //TODO: 
