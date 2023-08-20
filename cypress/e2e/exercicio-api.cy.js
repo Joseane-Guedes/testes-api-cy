@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 import contrato from '../contracts/usuarios.contract'
+import { faker } from '@faker-js/faker'
 
 describe('Testes da Funcionalidade - API de Usuários', () => {
      it('Deve validar contrato de usuários', () => {
@@ -17,12 +18,16 @@ describe('Testes da Funcionalidade - API de Usuários', () => {
                expect(response.body).to.have.property('usuarios')
                expect(response.duration).to.be.lessThan(20)
           }))
-
      });
 
-     it('Deve cadastrar um usuário com sucesso', () => {
-          //TODO: 
+     it.only('Deve cadastrar um usuário com sucesso', () => {
+          const email = faker.internet.email();
+          cy.NovoUsuario('TesteAPI', 'email', 'senha', true).then(response => {
+               expect(response.status).to.equal(201);
+               expect(response.body.message).to.equal('Cadastro realizado com sucesso');
+          });
      });
+
 
      it('Deve validar um usuário com email inválido', () => {
           //TODO: 
