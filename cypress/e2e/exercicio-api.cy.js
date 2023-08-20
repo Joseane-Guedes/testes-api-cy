@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import contrato from '../contracts/usuarios.contract'
 import { faker } from '@faker-js/faker'
 
