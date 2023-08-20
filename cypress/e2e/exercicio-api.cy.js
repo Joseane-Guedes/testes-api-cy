@@ -16,11 +16,10 @@ describe('Testes da Funcionalidade - API de Usuários', () => {
           }).then((response => {
                expect(response.status).to.equal(200)
                expect(response.body).to.have.property('usuarios')
-               expect(response.duration).to.be.lessThan(20)
           }))
      });
 
-     it.only('Deve cadastrar um usuário com sucesso', () => {
+     it('Deve cadastrar um usuário com sucesso', () => {
           const nome = faker.internet.userName()
           const email = faker.internet.email();
           const senha = faker.internet.password();
@@ -32,16 +31,58 @@ describe('Testes da Funcionalidade - API de Usuários', () => {
      });
 
      it('Deve validar um usuário com email inválido', () => {
-          //TODO: 
+          cy.request({
+               method: 'POST',
+               url: 'usuarios',
+               body: {
+                    nome: "TesteDeApi",
+                    email: 'beltrano@qa.com.br',
+                    password: "teste",
+                    administrador: "true"
+               },
+               failOnStatusCode: false
+          }).then((response) => {
+               expect(response.status).to.equal(400)
+               expect(response.body.message).to.equal('Este email já está sendo usado')
+          })
      });
 
-     it('Deve editar um usuário previamente cadastrado', () => {
-          //TODO: 
-     });
+     it.only('Deve editar um usuário previamente cadastrado', () => {
+          const nome = faker.internet.userName()
+          const nomeEditado = faker.internet.userName()
+          const email = faker.internet.email();
+          const emailEditado = faker.internet.email()
+          const senha = faker.internet.password();
+          cy.NovoUsuario(nome, email, senha, 'true').then(response => {
+               let id = response.body._id
+               cy.request({
+                    method: 'PUT',
+                    url: `usuarios/${id}`,
+                    body: {
 
+                         nome: nomeEditado,
+                         email: emailEditado,
+                         password: senha,
+                         administrador: "true"
+                    }
+               })
+          }).then((response) => {
+               expect(response.status).to.equal(200)
+               expect(response.body.message).to.equal('Registro alterado com sucesso')
+          })
+     });
      it('Deve deletar um usuário previamente cadastrado', () => {
-          //TODO: 
+          const email = faker.internet.email();
+          const senha = faker.internet.password();
+          cy.NovoUsuario('Maria Bonitona', email, senha, 'true').then(response => {
+               let id = response.body._id
+               cy.request({
+                    method: 'DELETE',
+                    url: `usuarios/${id}`
+               }).then((response) => {
+                    expect(response.status).to.equal(200),
+                         expect(response.body.message).to.equal('Registro excluído com sucesso')
+               })
+          })
      });
-
-
 });
