@@ -10,18 +10,18 @@ pipeline {
 
         stage('Instalar dependências') {
             steps {
-                bat 'npm install --prefix .'
+                sh 'npm install --prefix .'
             }
         }
 
        stage('Executar serverest') {
     steps {
-        bat 'start /B cmd /C "npm start --prefix ."'
+        sh 'start /B cmd /C "npm start --prefix ."'
     }
 }
         stage('Executar testes') {
             steps {
-                bat 'npm run cy:run --prefix .'
+                sh 'npm run cy:run --prefix .'
             }
         }
     }
