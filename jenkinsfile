@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clonar repositório') {
             steps {
-               git branch: 'main', url: 'https://github.com/Joseane-Guedes/testes-api-cy.git' 
+               git branch: 'main', url: 'https://serverest.dev/' 
             }
         }
                 stage('Instalar dependências') {
