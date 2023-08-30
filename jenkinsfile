@@ -1,15 +1,18 @@
 pipeline {
     agent any
+      environment {
+        PATH = "/Users/joseane/.nvm/versions/node/v18.0.0/bin:$PATH"
+    }
 
     stages {
         stage('Clonar repositório') {
             steps {
-               git branch: 'main', url: 'https://serverest.dev/' 
+               git branch: 'main', url: 'https://github.com/Joseane-Guedes/testes-api-cy.git' 
             }
         }
                 stage('Instalar dependências') {
             steps {
-                sh 'npm install -f'
+                sh 'npm install'
             }
         }
                 stage('Executar testes') {
